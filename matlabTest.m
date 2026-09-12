@@ -9,7 +9,7 @@ T_outs = {-5, 25}; % Winter, Summer
 
 seasons = {"Winter", "Summer"};
 
-% part 1A
+
 figure('Name', "Seasonal Temperature Distributions");
 
 for i = 1:2
@@ -33,27 +33,6 @@ for i = 1:2
 
 
 end
-
-% 1B
-
-% Which material has the steepest line?
-
-% Fiberglass has the steepest line.
-
-% Explain why this material is visually steeper than the others
-
-% The slope of the temperature distribution depends solely on
-% T_in, T_out, and L. Specifically, it depends on T_in - T_out
-% which is the same for all three materials.
-% Since fiberglass is the thinnest material, the
-% temperature drops over a shorter distance which results in a steeper
-% slope.
-
-% Write the algebraic equation that describes the slope of these lines
-
-% Slope = -(T_in - T_out) / L
-
-% 2A
 
 figure("Name", "Heat Flux vs Outside Temperature");
 hold on;
@@ -83,20 +62,3 @@ for T_out = T_range
     drawnow;
     pause(0.05);
 end
-
-% 2B
-
-% From a thermal standpoint, which material is more advantageous and why?
-
-% Fiberglass is more advantageous since it has the lowest slope and
-% therefore the smallest heat flux per outdoor temperature change
-
-% Write the algebraic equation that describes the slope of these lines
-% Slope = -k/L
-
-% What is the physical significance of the moment in your animation when the heat flux
-% q'' = 0?
-
-% This is the moment the system reaches thermal equilibrium, when T_out =
-% T_in. At this moment, no heat is flowing since there is no temperature
-% difference.
