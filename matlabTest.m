@@ -12,7 +12,7 @@ function matlabTest(materials, ks, Ls, T_in, T_outs)
     if ~iscell(ks), ks = num2cell(ks); end
     if ~iscell(Ls), Ls = num2cell(Ls); end
     if ~iscell(T_outs), T_outs = num2cell(T_outs); end
-
+   
     seasons = {"Winter", "Summer"};
 
 

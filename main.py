@@ -1,9 +1,11 @@
 import matlab.engine
 import time
 
+
 def prompter(text, default_value):
     val = input(f"{text} [default: {default_value}]: ").strip()
     return float(val) if val else default_value
+
 
 def get_inputs():
     print("Press enter for default values")
@@ -22,8 +24,6 @@ def get_inputs():
     print(f"T_outs: Winter: {T_winter} C, Summer: {T_summer} C")
 
     return materials, ks, Ls, T_in, T_outs
-
-
 
 
 def run_experiment():
