@@ -38,6 +38,7 @@ def run_experiment():
     input("Press enter to run script")
 
     scriptTimeStart = time.perf_counter()
+    eng.addpath(r'MATLAB Files', nargout=0);
     eng.matlabTest(materials, ks, Ls, T_in, T_outs, nargout=0)
 
     scriptTimeEnd = time.perf_counter()
