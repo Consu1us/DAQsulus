@@ -10,36 +10,41 @@ def prompter(text, default_value):
 def get_inputs():
     print("Press enter for default values")
     # materials, ks, ls, T_in, T_outs
-    materials = ["Concrete", "Fiberglass", "Brick"]
-    ks = [1.7, 0.04, 0.72] # W/m*k
-    Ls = [0.2, 0.15, 0.35] # meters
-    T_in = prompter("Inside temperature (Celsius)", 21.0)
-    T_winter = prompter("Winter temperature (Celsius)", -5.0)
-    T_summer = prompter("Summer temperature (Celsius)", 25.0)
-    T_outs = [T_winter, T_summer]
+    alpha = prompter("Enter pitch amplitude (deg).", 20)
 
-    print("\n")
-    print("Experiment configuration:")
-    print(f"T_in: {T_in} degrees C")
-    print(f"T_outs: Winter: {T_winter} C, Summer: {T_summer} C")
+    print("\nSelect mode:")
+    print("  [1] Pitch10")
+    print("  [2] Static0")
+    print("  [3] Static10")
+    print("  [4] Static20")
+    mode = prompter("Enter mode number (1-4)", 1)
 
-    return materials, ks, Ls, T_in, T_outs
+    k_array = prompter("Enter reduced frequencies k", 0.3)
+    runtime = prompter("Enter runtime (seconds)", 90.0)
+
+    print("Configuration:")
+    print(f"  alpha   : {alpha}")
+    print(f"  mode    : {mode}")
+    print(f"  k_array : {k_array}")
+    print(f"  runtime : {runtime} s")
+
+    return alpha, mode, k_array, runtime
 
 
 def run_experiment():
 
-    materials, ks, Ls, T_in, T_outs = get_inputs()
+    alpha, mode, k_array, runtime = get_inputs()
 
     print("MATLAB Engine Start...")
     matlabTimeStart = time.perf_counter()
     eng = matlab.engine.start_matlab()
     matlabTimeEnd = time.perf_counter()
     print(f"Initialization success. {(matlabTimeEnd - matlabTimeStart):.2f} s")
-    input("Press enter to run script")
+    input("Press enter to run experiment")
 
     scriptTimeStart = time.perf_counter()
     eng.addpath(r'MATLAB Files', nargout=0);
-    eng.matlabTest(materials, ks, Ls, T_in, T_outs, nargout=0)
+    eng.RunExperimentsModify(alpha, mode, k_array, runtime, nargout=0)
 
     scriptTimeEnd = time.perf_counter()
     input(f"Execution finished {(scriptTimeEnd - scriptTimeStart):.2f} s. Press enter to close...")
