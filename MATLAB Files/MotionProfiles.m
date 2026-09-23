@@ -79,26 +79,33 @@ dir = pulses(:, 2);  % 1 positive, 0 negative
 
 t_pulses = (0:length(pulses)-1) * dt;
 
-figure('Color','k');
-t_start = 8.23;
-t_end = 8.33;
-zoom = (t_pulses >= t_start) & (t_pulses <= t_end);
+delta_theta = zeros(size(step));
+delta_theta(step == 1 & dir == 1) = dTheta;
+delta_theta(step == 1 & dir == 0) = -dTheta;
+
+pos_discrete = position(1) + cumsum(delta_theta);
+
+figure('Color', 'k');
 subplot(2, 1, 1);
-stairs(t_pulses(zoom), step(zoom), 'b');
-% ylim([-0.2, 1.2])
-ylabel("STEP (1/0)");
+plot(t, rad2deg(position), 'c');
+hold on;
+plot(t_pulses, rad2deg(pos_discrete), 'm-');
+ylabel("AoA \alpha (deg)");
 xlabel("Time (s)");
-title(sprintf("Motor Pulse Signal (STEP) (%.2f s to %.2f s)", t_start, t_end));
+title("Continuous vs Motor Discretization Approximation")
+legend('Continuous', 'Reconstructed Motor Steps');
 grid on;
 
-subplot(2,1,2);
-stairs(t_pulses(zoom), dir(zoom), 'r');
-% ylim([-0.2, 1.2]);
-yticks([0 1]);
-ylabel("DIR (1/0)");
-title(sprintf("Motor Direction Signal (DIR) (%.2f s to %.2f s)", t_start, t_end));
+subplot(2, 1, 2);
+t_zoom_start = 10;
+t_zoom_end = 10.5;
+zoom_idx = (t_pulses >= t_zoom_start) & (t_pulses <= t_zoom_end);
+
+plot(t(zoom_idx), rad2deg(position(zoom_idx)), 'c-');
+hold on;
+stairs(t_pulses(zoom_idx), rad2deg(pos_discrete(zoom_idx)), 'm-');
 xlabel("Time (s)");
+ylabel("AoA \alpha (deg)");
+title("Discretization Zoomed View");
+legend("Continuous", "Motor Steps");
 grid on;
-
-
-
