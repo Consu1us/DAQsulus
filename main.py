@@ -44,7 +44,7 @@ def run_experiment():
 
     scriptTimeStart = time.perf_counter()
     eng.addpath(r'MATLAB Files', nargout=0);
-    eng.RunExperimentsModify(alpha, mode, k_array, runtime, nargout=0)
+    eng.RunExperiments(alpha, mode, k_array, runtime, nargout=0)
 
     scriptTimeEnd = time.perf_counter()
     input(f"Execution finished {(scriptTimeEnd - scriptTimeStart):.2f} s. Press enter to close...")
