@@ -4,7 +4,7 @@ import time
 
 def prompter(text, default_value):
     val = input(f"{text} [default: {default_value}]: ").strip()
-    return float(val) if val else default_value
+    return float(val) if val else float(default_value)
 
 
 def get_inputs():
@@ -27,7 +27,7 @@ def get_inputs():
         alpha = prompter("Enter pitch amplitude (deg).", 20)
         k_array = prompter("Enter reduced frequencies k", 0.3)
     elif mode == 2:
-        alpha = 0
+        alpha = prompter("Enter static hold angle (deg)", 0)
         k_array = 0
     
     runtime = prompter("Enter runtime (seconds)", 90.0)
@@ -39,12 +39,12 @@ def get_inputs():
     print(f"  k_array : {k_array}")
     print(f"  runtime : {runtime} s")
 
-    return alpha, mode, k_array, runtime
+    return alpha, mode, k_array, runtime, type
 
 
 def run_experiment():
 
-    alpha, mode, k_array, runtime = get_inputs()
+    alpha, mode, k_array, runtime, type = get_inputs()
 
     print("MATLAB Engine Start...")
     matlabTimeStart = time.perf_counter()
@@ -53,9 +53,14 @@ def run_experiment():
     print(f"Initialization success. {(matlabTimeEnd - matlabTimeStart):.2f} s")
     input("Press enter to run experiment")
 
+
     scriptTimeStart = time.perf_counter()
-    eng.addpath(r'MATLAB Files', nargout=0);
-    eng.RunExperiments(alpha, mode, k_array, runtime, nargout=0)
+    eng.addpath(r'MATLAB Files', nargout=0)
+
+    if type == 2:
+        eng.RunExperiments(alpha, mode, k_array, runtime, nargout=0)
+    elif type == 1:
+        eng.RunGraphicalExperiments(alpha, mode, k_array, runtime, nargout=0)
 
     scriptTimeEnd = time.perf_counter()
     input(f"Execution finished {(scriptTimeEnd - scriptTimeStart):.2f} s. Press enter to close...")
