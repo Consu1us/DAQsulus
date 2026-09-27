@@ -8,23 +8,34 @@ def prompter(text, default_value):
 
 
 def get_inputs():
+    
+    
     print("Press enter for default values")
-    # materials, ks, ls, T_in, T_outs
-    alpha = prompter("Enter pitch amplitude (deg).", 20)
 
-    print("\nSelect mode:")
-    print("  [1] Pitch10")
-    print("  [2] Static0")
-    print("  [3] Static10")
-    print("  [4] Static20")
-    mode = prompter("Enter mode number (1-4)", 1)
+    print("\nEnter graphical or experimental mode")
+    print("  [1] Graphical (Motion Profiles Only)")
+    print("  [2] Experimental")
+    type = prompter("Enter number (1, 2)", 2)
 
-    k_array = prompter("Enter reduced frequencies k", 0.3)
+    print("\nSelect pitch or static:")
+    print("  [1] Pitch")
+    print("  [2] Static")
+    mode = prompter("Enter mode number (1, 2)", 1)
+    
+
+    if mode == 1:
+        alpha = prompter("Enter pitch amplitude (deg).", 20)
+        k_array = prompter("Enter reduced frequencies k", 0.3)
+    elif mode == 2:
+        alpha = 0
+        k_array = 0
+    
     runtime = prompter("Enter runtime (seconds)", 90.0)
 
     print("Configuration:")
-    print(f"  alpha   : {alpha}")
-    print(f"  mode    : {mode}")
+    print(f"  type    : "+("Graphical" if type == 1 else "Experimental"))
+    print(f"  alpha   : {alpha} deg")
+    print(f"  mode    : "+("Pitch" if mode == 1 else "Static"))
     print(f"  k_array : {k_array}")
     print(f"  runtime : {runtime} s")
 
