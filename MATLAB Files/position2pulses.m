@@ -11,7 +11,9 @@ velocity = gradient(position, dt); % obtain velocity profile
 
 % Generate pulse times (continuous)
 accum = 0;
-pulse_times = [];
+est_pulses = ceil(sum(abs(velocity)) * dt / pos_per_pulse) + 100;
+pulse_times = zeros(1, est_pulses);
+pulse_count = 0;
 
 
 for k = 1:length(t)-1
@@ -21,7 +23,8 @@ for k = 1:length(t)-1
     while accum >= pos_per_pulse % generate a pulse if cumulative distance exceeds position resolution
         frac = (accum - pos_per_pulse) / dist; % determine where pulse occurs in time step
         tp = t(k) + (1 - frac) * dt; % calculate exact time of pulse occurance
-        pulse_times(end+1) = tp; % append time value to list of pulse times
+        pulse_count = pulse_count + 1;
+        pulse_times(pulse_count) = tp; % append time value to list of pulse times
         accum = accum - pos_per_pulse; % allows multiple pulses to be generated at faster speeds
     end
 end
