@@ -1,6 +1,8 @@
 import matlab.engine
 import time
 
+engineRunning = False
+eng = None
 
 def prompter(text, default_value):
     val = input(f"{text} [default: {default_value}]: ").strip()
@@ -43,14 +45,17 @@ def get_inputs():
 
 
 def run_experiment():
-
+    global engineRunning, eng
     alpha, mode, k_array, runtime, type = get_inputs()
+    
+    if (engineRunning == False): 
+        print("MATLAB Engine Start...")
+        matlabTimeStart = time.perf_counter()
+        eng = matlab.engine.start_matlab()
+        matlabTimeEnd = time.perf_counter()
+        print(f"Initialization success. {(matlabTimeEnd - matlabTimeStart):.2f} s")
+        engineRunning = True
 
-    print("MATLAB Engine Start...")
-    matlabTimeStart = time.perf_counter()
-    eng = matlab.engine.start_matlab()
-    matlabTimeEnd = time.perf_counter()
-    print(f"Initialization success. {(matlabTimeEnd - matlabTimeStart):.2f} s")
     input("Press enter to run experiment")
 
 
@@ -63,8 +68,13 @@ def run_experiment():
         eng.RunGraphicalExperiments(alpha, mode, k_array, runtime, nargout=0)
 
     scriptTimeEnd = time.perf_counter()
-    input(f"Execution finished {(scriptTimeEnd - scriptTimeStart):.2f} s. Press enter to close...")
-    eng.quit()
+    intention = prompter(f"\nExecution finished {(scriptTimeEnd - scriptTimeStart):.2f} s. \nPress 2 to close or 1 to run a new experiment.", 2)
+
+    if (intention == 2):
+        eng.quit()
+    elif (intention == 1):
+        run_experiment()
+
 
 
 if __name__ == "__main__":
