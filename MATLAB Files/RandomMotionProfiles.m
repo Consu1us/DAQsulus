@@ -53,7 +53,8 @@ else
 end
 
 % plot code
-figure('Color', 'k');
+fig1 = figure('Color', 'k');
+theme(fig1, "dark");
 
 
 subplot(2, 1, 1);
@@ -70,6 +71,7 @@ ylabel("Angular Velocity \omega (deg/s)");
 title("Pseudorandom Angular Velocity Profile");
 grid on;
 
+exportgraphics(fig1, fullfile("bin", "profiles.png"));
 
 % discretization & call position2pulses
 fprintf("\nbegin discretization");
@@ -85,7 +87,8 @@ delta_theta(step == 1 & dir == 0) = -dTheta;
 
 pos_discrete = position(1) + cumsum(delta_theta);
 
-figure('Color', 'k');
+fig2 = figure('Color', 'k');
+theme(fig2, "dark");
 subplot(2, 1, 1);
 plot(t, rad2deg(position), 'c');
 hold on;
@@ -109,3 +112,5 @@ ylabel("AoA \alpha (deg)");
 title("Discretization Zoomed View");
 legend("Continuous", "Motor Steps");
 grid on;
+
+exportgraphics(fig2, fullfile("bin", "discretization.png"));
