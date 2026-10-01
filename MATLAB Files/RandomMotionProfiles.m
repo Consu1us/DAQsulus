@@ -72,6 +72,7 @@ theme(fig1, "dark");
     grid on;
 
 exportgraphics(fig1, fullfile("bin", "profiles.png"));
+savefig(fig1, fullfile("bin", "profiles.fig"));
 
     % discretization & call position2pulses
     fprintf("\nbegin discretization");
@@ -114,3 +115,4 @@ legend("Continuous", "Motor Steps");
 grid on;
 
 exportgraphics(fig2, fullfile("bin", "discretization.png"));
+savefig(fig2, fullfile("bin", "discretization.fig"));

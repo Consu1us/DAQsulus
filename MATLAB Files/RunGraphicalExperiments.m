@@ -94,4 +94,5 @@ function RunGraphicalExperiments(alpha, mode, k_array, runtime)
     grid on;
 
     exportgraphics(fig1, fullfile("bin", "figure.png"));
+    savefig(fig1, fullfile("bin", "figure.fig"));
 end
