@@ -8,20 +8,25 @@ def prompter(text, default_value):
 
 
 def get_inputs():
-    
+
+    alpha = 0.0
+    mode = None
+    k_array = 0.0
     
     print("Press enter for default values")
 
     print("\nEnter graphical or experimental mode")
     print("  [1] Graphical (Motion Profiles Only)")
     print("  [2] Experimental")
-    type = prompter("Enter number (1, 2)", 2)
+    print("  [3] Random Motion Profiles (Graph only)")
+    type = prompter("Enter number (1, 2, 3)", 2)
 
-    print("\nSelect pitch or static:")
-    print("  [1] Pitch")
-    print("  [2] Static")
-    mode = prompter("Enter mode number (1, 2)", 1)
-    
+    if type != 3:
+        print("\nSelect pitch or static:")
+        print("  [1] Pitch")
+        print("  [2] Static")
+        mode = prompter("Enter mode number (1, 2)", 1)
+        
 
     if mode == 1:
         alpha = prompter("Enter pitch amplitude (deg).", 20)
@@ -32,14 +37,17 @@ def get_inputs():
     
     runtime = prompter("Enter runtime (seconds)", 90.0)
 
-    print("Configuration:")
-    print(f"  type    : "+("Graphical" if type == 1 else "Experimental"))
-    print(f"  alpha   : {alpha} deg")
-    print(f"  mode    : "+("Pitch" if mode == 1 else "Static"))
-    print(f"  k_array : {k_array}")
-    print(f"  runtime : {runtime} s")
+    if type != 3:
+        print("Configuration:")
+        print(f"  type    : "+("Graphical" if type == 1 else "Experimental"))
+        print(f"  alpha   : {alpha} deg")
+        print(f"  mode    : "+("Pitch" if mode == 1 else "Static"))
+        print(f"  k_array : {k_array}")
+        print(f"  runtime : {runtime} s")
 
-    return alpha, mode, k_array, runtime, type
+        return alpha, mode, k_array, runtime, type
+
+    return 0, 1, 1, runtime, type
 
 
 def run_experiment():
@@ -61,6 +69,8 @@ def run_experiment():
         eng.RunExperiments(alpha, mode, k_array, runtime, nargout=0)
     elif type == 1:
         eng.RunGraphicalExperiments(alpha, mode, k_array, runtime, nargout=0)
+    elif type == 3:
+        eng.RandomMotionProfiles(runtime, nargout=0)
 
     scriptTimeEnd = time.perf_counter()
     input(f"Execution finished {(scriptTimeEnd - scriptTimeStart):.2f} s. Press enter to close...")
