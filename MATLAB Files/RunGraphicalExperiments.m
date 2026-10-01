@@ -54,7 +54,7 @@ function RunGraphicalExperiments(alpha, mode, k_array, runtime)
 
 
     % discretization & call position2pulses
-    fprintf("\nbegin discretization");
+    fprintf("\nbegin discretization\n");
     [pulses, y] = position2pulses(position, t, dTheta, sampleRate);
     step = pulses(:, 1); % 1 fire, 0 idle
     dir = pulses(:, 2);  % 1 positive, 0 negative
@@ -67,7 +67,8 @@ function RunGraphicalExperiments(alpha, mode, k_array, runtime)
 
     pos_discrete = position(1) + cumsum(delta_theta);
 
-    figure('Color', 'k');
+    fig1 = figure('Color', 'k');
+    theme(fig1, "dark");
     subplot(2, 1, 1);
     plot(t, rad2deg(position), 'c');
     hold on;
@@ -91,4 +92,6 @@ function RunGraphicalExperiments(alpha, mode, k_array, runtime)
     title("Discretization Zoomed View");
     legend("Continuous", "Motor Steps");
     grid on;
+
+    exportgraphics(fig1, fullfile("bin", "figure.png"));
 end

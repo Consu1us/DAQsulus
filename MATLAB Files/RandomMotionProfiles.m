@@ -52,8 +52,9 @@ function RandomMotionProfiles(runtime)
         fprintf("all good to go");
     end
 
-    % plot code
-    figure('Color', 'k');
+% plot code
+fig1 = figure('Color', 'k');
+theme(fig1, "dark");
 
 
     subplot(2, 1, 1);
@@ -70,6 +71,7 @@ function RandomMotionProfiles(runtime)
     title("Pseudorandom Angular Velocity Profile");
     grid on;
 
+exportgraphics(fig1, fullfile("bin", "profiles.png"));
 
     % discretization & call position2pulses
     fprintf("\nbegin discretization");
@@ -85,7 +87,8 @@ function RandomMotionProfiles(runtime)
 
     pos_discrete = position(1) + cumsum(delta_theta);
 
-    figure('Color', 'k');
+    fig2 = figure('Color', 'k');
+    theme(fig2, "dark");
     subplot(2, 1, 1);
     plot(t, rad2deg(position), 'c');
     hold on;
@@ -101,13 +104,13 @@ function RandomMotionProfiles(runtime)
     t_zoom_end = 10.5;
     zoom_idx = (t_pulses >= t_zoom_start) & (t_pulses <= t_zoom_end);
 
-    plot(t(zoom_idx), rad2deg(position(zoom_idx)), 'c-');
-    hold on;
-    stairs(t_pulses(zoom_idx), rad2deg(pos_discrete(zoom_idx)), 'm-');
-    xlabel("Time (s)");
-    ylabel("AoA \alpha (deg)");
-    title("Discretization Zoomed View");
-    legend("Continuous", "Motor Steps");
-    grid on;
+plot(t(zoom_idx), rad2deg(position(zoom_idx)), 'c-');
+hold on;
+stairs(t_pulses(zoom_idx), rad2deg(pos_discrete(zoom_idx)), 'm-');
+xlabel("Time (s)");
+ylabel("AoA \alpha (deg)");
+title("Discretization Zoomed View");
+legend("Continuous", "Motor Steps");
+grid on;
 
-end
+exportgraphics(fig2, fullfile("bin", "discretization.png"));
