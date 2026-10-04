@@ -1,4 +1,4 @@
 Modular data acquisition system to interface between MATLAB and dSPACE MicroLabBox II written in Python and MATLAB.  
 Also generates sinusoidal motion profiles (fixed and pseudorandom) with discretization for the motor.  
 Created for DFL by Conrad Pinto.  
-Special thanks to James Bercaw and Professor Isabel Scherl for progrmamming, mathematical, and conceptual assistance.
+Special thanks to James Bercaw and Professor Isabel Scherl for programming, mathematical, and conceptual assistance.
