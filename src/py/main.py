@@ -68,7 +68,7 @@ def run_experiment():
 
 
     scriptTimeStart = time.perf_counter()
-    eng.addpath(r'MATLAB Files', nargout=0)
+    eng.addpath(r'src/MATLAB Files', nargout=0)
 
     if type == 2:
         eng.RunExperiments(alpha, mode, k_array, runtime, nargout=0)
