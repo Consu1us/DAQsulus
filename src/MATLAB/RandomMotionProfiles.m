@@ -5,7 +5,7 @@ function RandomMotionProfiles(runtime)
     sampleRate = 10000; % DAQ sampling rate (RunExperiments.m 3)
     GBoxR = 10; % Gearbox ratio (RunExperiments.m 6)
     C0002 = 1000; % number of pulses in one turn by motor (RunExperiments.m 7)
-    dTheta = (2*pi)/(C0002 * GBoxR); % radians/pulse (dSpaceTesting.m 7)
+    dTheta = (2*pi)/(C0002 * GBoxR); % radians/pu*lse (dSpaceTesting.m 7)
 
     c = 0.2; % Chord length, m (dSpaceTesting.m 9)
     U = 0.328; % freestream speed, m/s (FetchData.m 6)
@@ -52,9 +52,9 @@ function RandomMotionProfiles(runtime)
         fprintf("all good to go");
     end
 
-% plot code
-fig1 = figure('Color', 'k');
-theme(fig1, "dark");
+    % plot code
+    fig1 = figure('Color', 'k');
+    theme(fig1, "dark");
 
 
     subplot(2, 1, 1);
@@ -71,8 +71,8 @@ theme(fig1, "dark");
     title("Pseudorandom Angular Velocity Profile");
     grid on;
 
-exportgraphics(fig1, fullfile("bin", "profiles.png"));
-savefig(fig1, fullfile("bin", "profiles.fig"));
+    exportgraphics(fig1, fullfile("bin", "profiles.png"));
+    savefig(fig1, fullfile("bin", "profiles.fig"));
 
     % discretization & call position2pulses
     fprintf("\nbegin discretization");
@@ -105,14 +105,14 @@ savefig(fig1, fullfile("bin", "profiles.fig"));
     t_zoom_end = 10.5;
     zoom_idx = (t_pulses >= t_zoom_start) & (t_pulses <= t_zoom_end);
 
-plot(t(zoom_idx), rad2deg(position(zoom_idx)), 'c-');
-hold on;
-stairs(t_pulses(zoom_idx), rad2deg(pos_discrete(zoom_idx)), 'm-');
-xlabel("Time (s)");
-ylabel("AoA \alpha (deg)");
-title("Discretization Zoomed View");
-legend("Continuous", "Motor Steps");
-grid on;
+    plot(t(zoom_idx), rad2deg(position(zoom_idx)), 'c-');
+    hold on;
+    stairs(t_pulses(zoom_idx), rad2deg(pos_discrete(zoom_idx)), 'm-');
+    xlabel("Time (s)");
+    ylabel("AoA \alpha (deg)");
+    title("Discretization Zoomed View");
+    legend("Continuous", "Motor Steps");
+    grid on;
 
-exportgraphics(fig2, fullfile("bin", "discretization.png"));
-savefig(fig2, fullfile("bin", "discretization.fig"));
+    exportgraphics(fig2, fullfile("bin", "discretization.png"));
+    savefig(fig2, fullfile("bin", "discretization.fig"));
