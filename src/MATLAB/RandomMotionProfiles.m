@@ -116,3 +116,4 @@ function RandomMotionProfiles(runtime)
 
     exportgraphics(fig2, fullfile("bin", "discretization.png"));
     savefig(fig2, fullfile("bin", "discretization.fig"));
+end
