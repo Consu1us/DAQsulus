@@ -1,5 +1,6 @@
 import matlab.engine
 import time
+import sys
 from pathlib import Path
 
 engine_instance = None
@@ -19,5 +20,7 @@ def get_engine():
 def stop_engine():
     global engine_instance
     if engine_instance is not None:
+        print("Shutting down...")
         engine_instance.quit()
         engine_instance = None
+        sys.exit(0)
